@@ -1,4 +1,6 @@
-import { Wrench, Database, ArrowRight } from 'lucide-react';
+import { Database, ArrowRight } from 'lucide-react';
+import { Brand } from '@/components/layout/brand';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 import Link from 'next/link';
 import { configured } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -8,11 +10,9 @@ export default function Setup() {
   return (
     <main className="min-h-screen flex items-center justify-center p-6">
       <div className="card max-w-xl p-10">
-        <div className="wordmark mb-10">
-          <span className="brand-icon">
-            <Wrench size={20} />
-          </span>
-          ServiceOS
+        <div className="flex items-center justify-between gap-4 mb-10">
+          <Brand />
+          <ThemeToggle />
         </div>
         <Database className="text-brand mb-5" size={32} />
         <h1>Vamos conectar sua operação.</h1>

@@ -86,6 +86,8 @@ O seed recusa usuários já vinculados. Cria **Demo ServiceOS**, dez clientes, c
 
 - Autenticação por e-mail/senha e onboarding transacional.
 - Navegação horizontal no topo, com rolagem em telas menores, pesquisa global, ações rápidas e notificações.
+- Logos PNG com transparência real em `public/brand/serviceos-logo-transparent.png` (tema claro) e `public/brand/serviceos-logo-dark-transparent.png` (tema escuro), com troca automática nas apresentações compacta e completa. Os fundos foram removidos por processamento local dos originais, preservados na mesma pasta. A impressão usa a versão clara.
+- Modo claro/escuro pelo botão de sol/lua no cabeçalho e nas telas de acesso. A preferência fica salva no navegador e sincroniza entre abas; sem uma escolha salva, segue o tema do sistema. Documentos continuam claros na impressão.
 - Cadastros editáveis, busca, filtros, paginação e estados de carregamento/erro/vazio.
 - Clientes, vários endereços, ativos genéricos com metadata JSON, catálogo e equipe.
 - Leads em lista/pipeline e conversão idempotente em cliente. A etapa é alterada pelo formulário de edição.

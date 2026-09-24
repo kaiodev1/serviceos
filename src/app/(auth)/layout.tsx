@@ -1,4 +1,6 @@
-import { Wrench, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
+import { Brand } from '@/components/layout/brand';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { configured } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 export const dynamic = 'force-dynamic';
@@ -7,12 +9,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <main className="auth-layout">
       <section className="auth-story">
-        <div className="wordmark">
-          <span className="brand-icon">
-            <Wrench size={20} />
-          </span>
-          ServiceOS
-        </div>
+        <Brand full />
         <div>
           <p className="text-sky-300 text-xs tracking-widest font-semibold mb-5">
             MENOS PLANILHAS. MAIS POSSIBILIDADES.
@@ -41,7 +38,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </div>
         <p className="text-xs text-slate-400">Feito para quem faz acontecer.</p>
       </section>
-      <section className="auth-panel">{children}</section>
+      <section className="auth-panel">
+        <div className="auth-panel-content">
+          <div className="auth-panel-tools">
+            <Brand />
+            <ThemeToggle />
+          </div>
+          {children}
+        </div>
+      </section>
     </main>
   );
 }

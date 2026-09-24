@@ -1,6 +1,8 @@
 import { OnboardingForm } from '@/components/forms/onboarding';
 import { getUser } from '@/lib/session';
 import { redirect } from 'next/navigation';
+import { Brand } from '@/components/layout/brand';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 export const dynamic = 'force-dynamic';
 export default async function Onboarding() {
   const { db, user } = await getUser();
@@ -20,7 +22,11 @@ export default async function Onboarding() {
       </main>
     );
   return (
-    <main className="min-h-screen flex items-center justify-center p-6">
+    <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-6">
+      <div className="flex items-center justify-between w-full max-w-2xl">
+        <Brand />
+        <ThemeToggle />
+      </div>
       <OnboardingForm />
     </main>
   );

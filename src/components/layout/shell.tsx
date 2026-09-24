@@ -16,7 +16,6 @@ import {
   Search,
   Bell,
   Plus,
-  Wrench,
   ChevronDown,
   LogOut,
   Headset,
@@ -25,6 +24,8 @@ import {
 import { signOut } from '@/features/auth/actions';
 import { modules } from '@/features/modules';
 import type { Role } from '@/lib/permissions';
+import { Brand } from './brand';
+import { ThemeToggle } from './theme-toggle';
 const navigation = [
   { title: '', items: [['dashboard', 'Dashboard', LayoutDashboard]] },
   {
@@ -76,10 +77,7 @@ export function Shell({
             className="wordmark header-brand"
             href={role === 'technician' ? '/field' : '/dashboard'}
           >
-            <span className="brand-icon">
-              <Wrench size={19} />
-            </span>
-            Service<span className="text-brand -ml-2">OS</span>
+            <Brand />
           </Link>
           <div className="header-company">
             <span className="avatar rounded-lg shrink-0">{company[0]}</span>
@@ -93,6 +91,7 @@ export function Shell({
             <Search size={16} className="text-slate-400" />
             <input name="q" aria-label="Pesquisa global" placeholder="Pesquisar na operação…" />
           </form>
+          <ThemeToggle />
           {role !== 'technician' && (
             <details className="menu">
               <summary className="button small" aria-label="Criar novo registro">
