@@ -85,7 +85,7 @@ O seed recusa usuários já vinculados. Cria **Demo ServiceOS**, dez clientes, c
 ## Funcionalidades deste ciclo
 
 - Autenticação por e-mail/senha e onboarding transacional.
-- Sidebar responsiva, pesquisa global, ações rápidas e notificações.
+- Navegação horizontal no topo, com rolagem em telas menores, pesquisa global, ações rápidas e notificações.
 - Cadastros editáveis, busca, filtros, paginação e estados de carregamento/erro/vazio.
 - Clientes, vários endereços, ativos genéricos com metadata JSON, catálogo e equipe.
 - Leads em lista/pipeline e conversão idempotente em cliente. A etapa é alterada pelo formulário de edição.

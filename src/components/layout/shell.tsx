@@ -1,5 +1,4 @@
 'use client';
-import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -19,11 +18,8 @@ import {
   Plus,
   Wrench,
   ChevronDown,
-  Menu,
-  X,
   LogOut,
   Headset,
-  ArrowUpRight,
   MapPin,
 } from 'lucide-react';
 import { signOut } from '@/features/auth/actions';
@@ -71,96 +67,26 @@ export function Shell({
   notifications: number;
 }) {
   const path = usePathname();
-  const [open, setOpen] = useState(false);
   const key = path.split('/')[1];
   return (
-    <>
-      <aside className={`sidebar ${open ? 'mobile-open' : ''}`}>
-        <div className="flex items-center justify-between px-3 mb-6">
-          <Link className="wordmark" href="/dashboard">
+    <div className="workspace">
+      <header className="app-topbar">
+        <div className="app-header">
+          <Link
+            className="wordmark header-brand"
+            href={role === 'technician' ? '/field' : '/dashboard'}
+          >
             <span className="brand-icon">
               <Wrench size={19} />
             </span>
             Service<span className="text-brand -ml-2">OS</span>
           </Link>
-          <button
-            className="mobile-menu icon-button"
-            aria-label="Fechar menu"
-            onClick={() => setOpen(false)}
-          >
-            <X size={18} />
-          </button>
-        </div>
-        <div className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 mx-1 mb-3">
-          <span className="avatar rounded-lg shrink-0">{company[0]}</span>
-          <div className="min-w-0">
-            <p className="text-xs font-semibold truncate">{company}</p>
-            <p className="muted text-[10px]">Minha empresa</p>
-          </div>
-        </div>
-        <nav className="overflow-y-auto flex-1">
-          {role === 'technician' ? (
-            <Link className="nav-link active" href="/field">
-              <MapPin size={17} />
-              Meus atendimentos
-            </Link>
-          ) : (
-            navigation.map((group) => (
-              <div key={group.title}>
-                {group.title && <p className="nav-group">{group.title}</p>}
-                {group.items.map(([route, label, Icon]) => (
-                  <Link
-                    onClick={() => setOpen(false)}
-                    className={`nav-link ${key === route ? 'active' : ''}`}
-                    href={`/${route}`}
-                    key={route}
-                  >
-                    <Icon size={17} strokeWidth={1.7} />
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            ))
-          )}
-        </nav>
-        <div className="mt-5 pt-4 border-t border-slate-100">
-          {role !== 'technician' && (
-            <Link className={`nav-link ${key === 'settings' ? 'active' : ''}`} href="/settings">
-              <Settings size={17} />
-              Configurações
-            </Link>
-          )}
-          <Link className="nav-link" href="/field">
-            <MapPin size={17} />
-            Modo de campo <ArrowUpRight size={13} />
-          </Link>
-          <p className="text-[10px] text-slate-400 px-3 pt-4">Sua operação. Em um só lugar.</p>
-        </div>
-      </aside>
-      <div className="workspace">
-        <header className="app-header">
-          <button
-            className="mobile-menu icon-button"
-            aria-label="Abrir menu"
-            onClick={() => setOpen(true)}
-          >
-            <Menu size={19} />
-          </button>
-          <div className="header-breadcrumb text-xs text-slate-400">
-            Workspace <span className="px-3">/</span>
-            <span className="text-slate-700">
-              {modules[key]?.title ??
-                (
-                  {
-                    dashboard: 'Dashboard',
-                    reports: 'Relatórios',
-                    settings: 'Configurações',
-                    field: 'Em campo',
-                    notifications: 'Notificações',
-                    search: 'Pesquisa',
-                  } as Record<string, string>
-                )[key]}
-            </span>
+          <div className="header-company">
+            <span className="avatar rounded-lg shrink-0">{company[0]}</span>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold truncate">{company}</p>
+              <p className="muted text-[10px]">Minha empresa</p>
+            </div>
           </div>
           <div className="flex-1" />
           <form action="/search" className="search-box header-search w-60">
@@ -169,10 +95,10 @@ export function Shell({
           </form>
           {role !== 'technician' && (
             <details className="menu">
-              <summary className="button small">
+              <summary className="button small" aria-label="Criar novo registro">
                 <Plus size={16} />
-                Novo
-                <ChevronDown size={13} />
+                <span className="quick-create-label">Novo</span>
+                <ChevronDown className="quick-create-chevron" size={13} />
               </summary>
               <div className="dropdown">
                 {['clients', 'leads', 'quotes', 'calendar', 'work-orders'].map((k) => (
@@ -210,9 +136,70 @@ export function Shell({
               </form>
             </div>
           </details>
-        </header>
-        <main className="main">{children}</main>
-      </div>
-    </>
+        </div>
+        <nav className="top-navigation" aria-label="Navegação principal">
+          {role !== 'technician' &&
+            navigation.map((group) => (
+              <div
+                className="nav-section"
+                key={group.title}
+                role="group"
+                aria-label={group.title || 'Início'}
+              >
+                {group.items.map(([route, label, Icon]) => (
+                  <Link
+                    className={`nav-link ${key === route ? 'active' : ''}`}
+                    href={`/${route}`}
+                    key={route}
+                    aria-current={key === route ? 'page' : undefined}
+                  >
+                    <Icon size={17} strokeWidth={1.7} />
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          <div className="nav-section nav-utilities">
+            {role !== 'technician' && (
+              <Link
+                className={`nav-link ${key === 'settings' ? 'active' : ''}`}
+                href="/settings"
+                aria-current={key === 'settings' ? 'page' : undefined}
+              >
+                <Settings size={17} />
+                Configurações
+              </Link>
+            )}
+            <Link
+              className={`nav-link ${key === 'field' ? 'active' : ''}`}
+              href="/field"
+              aria-current={key === 'field' ? 'page' : undefined}
+            >
+              <MapPin size={17} />
+              {role === 'technician' ? 'Meus atendimentos' : 'Modo de campo'}
+            </Link>
+          </div>
+        </nav>
+      </header>
+      <main className="main">
+        <div className="header-breadcrumb text-xs text-slate-400 mb-5">
+          Workspace <span className="px-3">/</span>
+          <span className="text-slate-700">
+            {modules[key]?.title ??
+              (
+                {
+                  dashboard: 'Dashboard',
+                  reports: 'Relatórios',
+                  settings: 'Configurações',
+                  field: 'Em campo',
+                  notifications: 'Notificações',
+                  search: 'Pesquisa',
+                } as Record<string, string>
+              )[key]}
+          </span>
+        </div>
+        {children}
+      </main>
+    </div>
   );
 }
