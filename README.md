@@ -19,6 +19,19 @@ npm.cmd run dev
 
 Abra http://localhost:3000. No Windows, `npm.cmd` evita a restrição de execução de `npm.ps1`. Nos demais sistemas use `npm` normalmente. Sem configuração, a aplicação exibe uma tela de instalação em `/setup`.
 
+### Se o projeto não iniciar no Windows
+
+Se aparecer **`'next' não é reconhecido`**, as dependências estão ausentes ou incompletas. Pare o servidor com `Ctrl+C` no terminal em que ele está aberto e execute, na pasta do projeto:
+
+```powershell
+npm.cmd ci
+npm.cmd run dev
+```
+
+Aguarde o primeiro comando terminar antes de iniciar o segundo. Se `npm.cmd ci` informar `EPERM` em um arquivo `.node`, feche os servidores deste projeto e tente novamente: um processo pode estar mantendo o arquivo em uso. Não reinstale dependências enquanto `next dev` estiver executando.
+
+Para desenvolvimento, use `npm.cmd run dev`. O comando `npm.cmd start` exige um build prévio com `npm.cmd run build`. Preencha as variáveis no `.env.local`; `.env.example` é apenas o modelo.
+
 ## Variáveis de ambiente
 
 | Variável                        | Uso                                                       |
