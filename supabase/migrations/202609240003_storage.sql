@@ -1,0 +1,4 @@
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('work-order-files','work-order-files',false,6291456,array['image/jpeg','image/png','image/webp','application/pdf']) on conflict(id) do nothing;
+create policy order_file_read on storage.objects for select to authenticated using(bucket_id='work-order-files' and exists(select 1 from public.work_order_files f where f.file_path=name and private.order_access(f.company_id,f.work_order_id)));
+create policy order_file_upload on storage.objects for insert to authenticated with check(bucket_id='work-order-files' and private.order_access((storage.foldername(name))[1]::uuid,(storage.foldername(name))[2]::uuid));
+create policy own_upload_cleanup on storage.objects for delete to authenticated using(bucket_id='work-order-files' and owner_id=auth.uid()::text and private.order_access((storage.foldername(name))[1]::uuid,(storage.foldername(name))[2]::uuid));
